@@ -20,12 +20,12 @@ use App\Http\Controllers\SaleController;
 Route::get('/', [HomeController::class, 'index']);
 
 Route::prefix('category')->group(function () {
-    Route::get('food-beverage', [ProductController::class, 'index'])->nama('products.food-beverage');
-    Route::get('beauty-health', [ProductController::class, 'index'])->nama('products.beauty-health');
-    Route::get('home-care', [ProductController::class, 'index'])->nama('products.home-care');
-    Route::get('baby-kid', [ProductController::class, 'index'])->nama('products.baby-kid');
+    Route::get('food-beverage', [ProductController::class, 'index'])->name('products.food-beverage');
+    Route::get('beauty-health', [ProductController::class, 'index'])->name('products.beauty-health');
+    Route::get('home-care', [ProductController::class, 'index'])->name('products.home-care');
+    Route::get('baby-kid', [ProductController::class, 'index'])->name('products.baby-kid');
 });
 
-Route::get('/user/{id}/nama/{nama}', [UserController::class, 'show']);
+Route::get('/user/{id}/name/{name}', [UserController::class, 'show']);
 
 Route::get('/sales', [SaleController::class, 'index']);
