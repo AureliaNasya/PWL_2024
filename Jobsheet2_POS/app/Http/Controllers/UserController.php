@@ -124,7 +124,7 @@ class UserController extends Controller
             return redirect('/user')->with('success', 'Data user berhasil dihapus');
         }
         catch(\Illuminate\Database\QueryException $e) {
-            return redirect('/user')->with('error', 'data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+            return redirect('/user')->with('error', 'Data user gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
         }
     }
 }

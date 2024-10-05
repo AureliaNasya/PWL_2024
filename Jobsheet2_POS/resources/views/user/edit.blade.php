@@ -19,7 +19,7 @@
                 {!! method_field('PUT') !!}
                 <div class="form-group row">
                     <label class="col-1 control-label col-form-label">Level</label>
-                    <div class="com-11">
+                    <div class="col-11">
                         <select class="form-control" id="level_id" name="level_id" required>
                             <option value="">- Pilih Level -</option>
                             @foreach ($level as $item)
