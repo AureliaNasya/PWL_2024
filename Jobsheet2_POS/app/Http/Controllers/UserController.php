@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\UserModel;
 use App\Models\LevelModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Redis;
 use Yajra\DataTables\Facades\DataTables;
 
 class UserController extends Controller
@@ -17,7 +15,7 @@ class UserController extends Controller
             'list' => ['Home', 'User']
         ];
         $page = (object) [
-            'title' => 'daftar user yang terdaftar dalam sistem'
+            'title' => 'Daftar user yang terdaftar dalam sistem'
         ];
         $activeMenu = 'user';
         return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'activeMenu' => $activeMenu]);
@@ -65,7 +63,7 @@ class UserController extends Controller
             'password' => bcrypt($request->password),
             'level_id' => $request->level_id
         ]);
-        return redirect('/user')->with('success', 'Data userberhasil disimpan');
+        return redirect('/user')->with('success', 'Data user berhasil disimpan');
     }
 
     public function show(string $id) {
