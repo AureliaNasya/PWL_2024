@@ -23,6 +23,7 @@ class UserController extends Controller
         return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level ,'activeMenu' => $activeMenu]);
     }
 
+    /*
     public function list(Request $request) {
         $users = UserModel::select('user_id', 'username', 'nama', 'level_id')->with('level');
         //filter data berdasarkan level_id
@@ -42,6 +43,7 @@ class UserController extends Controller
         ->rawColumns(['aksi']) //memberi tahu bahwa kolom aksi adalah html
         ->make(true);
     }
+    */
 
     public function create() {
         $breadcrumb = (object) [
@@ -162,5 +164,61 @@ class UserController extends Controller
             ]);
         }
         redirect('/');
+    }
+
+    public function list(Request $request) {
+        $users = UserModel::select('user_id', 'username', 'nama', 'level_id')->with('level');
+        if($request->level_id) {
+            $users->where('level_id', $request->level_id);
+        }
+        return DataTables::of($users)->addIndexColumn()->addColumn('aksi', function($user) {
+            $btn = '<button onclick="modalAction(\''.url('/user/'.$user->user_id.'/show_ajax').'\')" class="btn btn-info btn-sm">Detail</button> ';
+            $btn = '<button onclick="modalAction(\''.url('/user/'.$user->user_id.'/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
+            $btn = '<button onclick="modalAction(\''.url('/user/'.$user->user_id.'/delete_ajax').'\')" class="btn btn-info btn-sm">Hapus</button> ';
+            return $btn;
+        })
+        ->rawColumns(['aksi'])->make(true);
+    }
+
+    public function edit_ajax(string $id) {
+        $user = UserModel::find($id);
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+        return view('user.edit_ajax', ['user' => $user, 'level' => $level]);
+    }
+
+    public function update_ajax(Request $request, $id) {
+        if($request->ajax() || $request->wantsJson()) {
+            $rules = [
+                'level_id' => 'required|integer',
+                'username' => 'required|max:20|unique:m_user,username,'.$id.',user_id',
+                'nama' => 'required|max:100',
+                'password' => 'nullable|min:6|max:20'
+            ];
+            $validator = Validator::make($request->all(), $rules);
+            if($validator->fails()) {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Validasi Gagal',
+                    'msgField' => $validator->errors()
+                ]);
+            }
+            $check = UserModel::find($id);
+            if($check) {
+                if(!$request->filled('password') ){
+                    $request->request->remove('password');
+                }
+                $check->update($request->all());
+                return response()->json([
+                    'status' => true,
+                    'message' => 'Data Berhasil Update'
+                ]);
+            } else {
+                return response()->json([
+                    'status' => false,
+                    'message' => 'Data Tidak Ditemuka'
+                ]);
+            }
+        }
+        return redirect('/');
     }
 }
