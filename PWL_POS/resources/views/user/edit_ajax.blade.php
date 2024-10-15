@@ -3,34 +3,39 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="exampleModalLabel">Kesalahan</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-danger">
-                    <h5><i class="icon fas fa-ban"></i>Kesalahan!!!</h5>
-                    Data yang Anda cari tidak ditemukan
+                    <h5><i class="icon fas fa-ban"></i> Kesalahan!!!</h5>
+                    Data yang anda cari tidak ditemukan
                 </div>
                 <a href="{{ url('/user') }}" class="btn btn-warning">Kembali</a>
             </div>
         </div>
     </div>
-    @else
-    <form action="{{ url('/user/'.$user->user_id.'/update_ajax') }}" method="POST" id="form-edit">
+@else
+    <form action="{{ url('/user/' . $user->user_id.'/update_ajax') }}" method="POST" id="form-edit">
         @csrf
         @method('PUT')
         <div id="modal-master" class="modal-dialog modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
                     <h5 class="modal-title" id="exampleModalLabel">Edit Data User</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
                 </div>
                 <div class="modal-body">
-                    <div class="form-grroup">
+                    <div class="form-group">
                         <label>Level Pengguna</label>
                         <select name="level_id" id="level_id" class="form-control" required>
                             <option value="">- Pilih Level -</option>
-                            @foreach ($level as $l)
-                                <option {{ (4l->level_id==$user->level_id)? 'selected' : '' }} value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
+                            @foreach($level as $l)
+                                <option {{ ($l->level_id == $user->level_id) ? 'selected' : '' }} 
+                                value="{{ $l->level_id }}">{{ $l->level_nama }}</option>
                             @endforeach
                         </select>
                         <small id="error-level_id" class="error-text form-text text-danger"></small>
@@ -59,14 +64,15 @@
             </div>
         </div>
     </form>
+
     <script>
         $(document).ready(function() {
-            $('#form-edit').validate({
-                rules : {
-                    level_id: {required:true, number:true},
-                    username: {required:true, minlength:3, maxlength:20},
-                    nama: {required:true, minlength:3, maxlength:100},
-                    password: {minlength:6, maxlength:20}
+            $("#form-edit").validate({
+                rules: {
+                    level_id: { required: true, number: true },
+                    username: { required: true, minlength: 3, maxlength: 20 },
+                    nama: { required: true, minlength: 3, maxlength: 100 },
+                    password: { minlength: 6, maxlength: 20 }
                 },
                 submitHandler: function(form) {
                     $.ajax({
@@ -74,7 +80,7 @@
                         type: form.method,
                         data: $(form).serialize(),
                         success: function(response) {
-                            if(response.status) {
+                            if (response.status) {
                                 $('#myModal').modal('hide');
                                 Swal.fire({
                                     icon: 'success',
@@ -85,14 +91,19 @@
                             } else {
                                 $('.error-text').text('');
                                 $.each(response.msgField, function(prefix, val) {
-                                    $('#error-'+prefix).text(val[0]);
+                                    $('#error-' + prefix).text(val[0]);
+                                });
+                                Swal.fire({
+                                    icon: 'error',
+                                    title: 'Terjadi Kesalahan',
+                                    text: response.message
                                 });
                             }
                         }
                     });
                     return false;
                 },
-                errorElement: 'span';
+                errorElement: 'span',
                 errorPlacement: function(error, element) {
                     error.addClass('invalid-feedback');
                     element.closest('.form-group').append(error);
@@ -101,7 +112,7 @@
                     $(element).addClass('is-invalid');
                 },
                 unhighlight: function(element, errorClass, validClass) {
-                    $(element).removeClass('is-invalid')
+                    $(element).removeClass('is-invalid');
                 }
             });
         });
