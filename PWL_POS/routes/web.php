@@ -6,9 +6,17 @@ use App\Http\Controllers\KategoriController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\AuthController;
 
-Route::get('/', [WelcomeController::class, 'index']);
-Route::group(['prefix' => 'user'], function(){
+Route::pattern('id', '[0-9]+'); //artinya ketika ada parameter {id}, maka harus berupa angka
+
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'postlogin']);
+Route::get('logout', [AuthController::class, 'logout'])->name('logout');
+
+Route::middleware(['auth'])->group(function() {
+    Route::get('/', [WelcomeController::class, 'index']);
+    Route::group(['prefix' => 'user'], function(){
     Route::get('/', [UserController::class, 'index']);          //menampilkan halaman awal user
     Route::post('/list', [UserController::class, 'list']);      //menampilkan data user dalam bentuk json untuk datatables
     Route::get('/create', [UserController::class, 'create']);   //Menampilkan halaman form tambah user
@@ -24,6 +32,9 @@ Route::group(['prefix' => 'user'], function(){
     Route::delete('/{id}/delete_ajax', [UserController::class, 'delete_ajax']); //untuk hapus data user ajax
     Route::delete('/{id}', [UserController::class, 'destroy']); //mengahapus data user
 });
+});
+
+
 
 Route::group(['prefix' => 'level'], function() {
     Route::get('/', [LevelController::class, 'index']);
