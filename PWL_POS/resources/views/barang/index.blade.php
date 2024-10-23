@@ -48,7 +48,7 @@
 @push('js')
 <script>
     function modalAction(url = ''){
-        $('#myModal').load(url,function(){
+        $('#myModal').load(url, function(){
             $('#myModal').modal('show');
         });
     }
@@ -58,59 +58,63 @@
         databarang = $('#table_barang').DataTable({
             serverSide: true,
             ajax: {
-                "url": "{{ url('barang/list') }}",
-                "dataType": "json",
-                "type" : "POST",
-                "data" : function (d){
+                url: "{{ url('barang/list') }}",
+                type: "POST",
+                data: function (d) {
                     d.kategori_id = $('#kategori_id').val();
                 }
-            }, 
-            columns : [
+            },
+            columns: [
                 {
                     data: "DT_RowIndex",
                     className: "text-center",
                     orderable: false,
-                    searchable:false
+                    searchable: false
                 },
                 {
                     data: "kategori.kategori_nama",
                     className: "",
                     orderable: false,
                     searchable: false
-                },{
-                    data: "barang_kode", 
+                },
+                {
+                    data: "barang_kode",
                     className: "",
-                    orderable: true, 
-                    searchable: true
-                },{
-                    data: "barang_nama", 
-                    className: "",
-                    orderable: true, 
-                    searchable: true
-                },{
-                    data: "harga_beli", 
-                    className: "",
-                    orderable: true, 
-                    searchable: true
-                },{
-                    data: "harga_jual", 
-                    className: "",
-                    orderable: true, 
+                    orderable: true,
                     searchable: true
                 },
                 {
-                    data: "aksi", 
+                    data: "barang_nama",
                     className: "",
-                    orderable: false, 
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "harga_beli",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "harga_jual",
+                    className: "",
+                    orderable: true,
+                    searchable: true
+                },
+                {
+                    data: "aksi",
+                    className: "",
+                    orderable: false,
                     searchable: false
                 }
             ]
         });
 
+        // Reload tabel saat kategori berubah
         $('#kategori_id').on('change', function() {
             databarang.ajax.reload();
         });
-
     });
 </script>
+
 @endpush
