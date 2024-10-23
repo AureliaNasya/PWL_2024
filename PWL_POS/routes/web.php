@@ -128,3 +128,19 @@ Route::group(['prefix' => 'stok'], function(){
     Route::get('/export_excel', [StokController::class, 'export_excel']);             //mengekspor data stok dalam bentuk file excel
     Route::get('/export_pdf', [StokController::class, 'export_pdf']);                 //mengekspor data stok dalam bentuk file pdf
 });
+
+Route::group(['prefix' => 'penjualan'], function(){
+    Route::get('/', [PenjualanController::class, 'index']);                                //menampilkan laman awal penjualan
+    Route::post('/list', [PenjualanController::class, 'list']);                            //menampilkan data penjualan dalam bentuk json untuk datatables
+    Route::get('/create_ajax', [PenjualanController::class, 'create_ajax']);               //menampilkan laman form tambah penjualan AJAX
+    Route::post('/ajax', [PenjualanController::class, 'store_ajax']);                      //menyimpan data penjualan baru AJAX
+    Route::get('/{id}/show_ajax', [PenjualanController::class, 'show_ajax']);              //menampilkan form detil data penjualan AJAX
+    Route::get('/{id}/edit_ajax', [PenjualanController::class, 'edit_ajax']);              //menampilkan laman form edit penjualan AJAX
+    Route::put('/{id}/update_ajax', [PenjualanController::class, 'update_ajax']);          //menyimpan perubahan data penjualan AJAX
+    Route::get('/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']);         //menampilkan form confirm hapus data penjualan AJAX
+    Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']);       //menghapus data penjualan AJAX
+    Route::get('/import', [PenjualanController::class, 'import']);                         //menampilkan form impor data penjualan
+    Route::post('/import_ajax', [PenjualanController::class, 'import_ajax']);              //mengimpor file excel ke daftar data penjualan
+    Route::get('/export_excel', [PenjualanController::class, 'export_excel']);             //mengekspor data penjualan dalam bentuk file excel
+    Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']);                 //mengekspor data penjualan dalam bentuk file pdf
+});
