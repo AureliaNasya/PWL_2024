@@ -144,3 +144,7 @@ Route::group(['prefix' => 'penjualan'], function(){
     Route::get('/export_excel', [PenjualanController::class, 'export_excel']);             //mengekspor data penjualan dalam bentuk file excel
     Route::get('/export_pdf', [PenjualanController::class, 'export_pdf']);                 //mengekspor data penjualan dalam bentuk file pdf
 });
+
+Route::group(['prefix' => 'profile'], function(){
+    Route::get('/{id}', [ProfileController::class, 'index']);
+});
