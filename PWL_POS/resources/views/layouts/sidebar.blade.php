@@ -5,7 +5,7 @@
           <img src="adminlte/dist/img/user2-160x160.jpg" class="img-circle elevation-2" alt="User Image">
         </div>
         <div class="info">
-          <a href="{{url('/user/'.Auth::user()->user_id)}}" class="d-block">{{Auth::user()->nama}}</a>
+          <a href="{{url('/user/'.Auth::user()->user_id.'/show_ajax')}}" class="d-block">{{Auth::user()->nama}}</a>
         </div>
       </div>
     <!-- SidebarSearch Form -->
@@ -24,7 +24,7 @@
     <nav class="mt-2"> 
         <ul class="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu" data-accordion="false"> 
             <li class="nav-item"> 
-                <a href="{{ url('/') }}" class="nav-link {{ ($activeMenu == 'dashboard')? 'active' : '' }} "> 
+                 
                     <i class="nav-icon fas fa-tachometer-alt"></i> 
                     <p>Dashboard</p> 
                 </a> 

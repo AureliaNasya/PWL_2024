@@ -143,6 +143,20 @@ class UserController extends Controller
         return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
     }
 
+    public function show_ajax(string $id) {
+        $user = UserModel::with('level')->find($id);
+        if (!$user) {
+            return response()->json([
+                'status' => false,
+                'message' => 'Data tidak ditemukan'
+            ]);
+        }
+        return response()->json([
+            'status' => true,
+            'data' => $user
+        ]);
+    }
+
     public function edit(string $id) {
         $user = UserModel::find($id);
         $level = LevelModel::all();

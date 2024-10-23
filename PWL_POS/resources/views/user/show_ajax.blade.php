@@ -37,7 +37,8 @@
             </table>
         @endempty
         <a href="{{ url('user') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
-    </div>
+        <a href="{{ url('user.edit_ajax') }}" class="btn btn-sm btn-default mt-2">Edit</a>
+    </div>    
 </div>
 @endsection
 @push('css')
