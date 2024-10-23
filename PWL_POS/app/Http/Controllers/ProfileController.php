@@ -23,7 +23,7 @@ class ProfileController extends Controller
         $activeMenu = 'profile'; // set menu yang sedang aktif
         $user = UserModel::with('level')->find($id);
         $level = LevelModel::all(); // ambil data level untuk filter level
-        return view('profile.index', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'user' => $user,'activeMenu' => $activeMenu]);
+        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'level' => $level, 'user' => $user,'activeMenu' => $activeMenu]);
     }
 
     //Menampilkan detil data user

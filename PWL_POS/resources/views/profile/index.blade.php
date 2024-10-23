@@ -5,9 +5,10 @@
         <div class="row" id="profile">
             <div class="col-md-4 border-right">
                 <div class="p-3 py-5">
+                    {{-- {{$user}} --}}
 
                     <div class="d-flex flex-column align-items-center text-center p-3 ">
-                        <img class="rounded mt-3 mb-2" width="250px" src=" {{ asset($user->foto) }} ?{{ time() }} " alt="Foto Profil">
+                        <img class="rounded mt-3 mb-2" width="250px" src=" 'https://cdn-icons-png.flaticon.com/512/6858/6858504.png' " alt="Foto Profil">
                     </div>
                     <div onclick="modalAction('{{ url('/profile/' . session('user_id') . '/edit_foto') }}')" class="mt-4 text-center"><button class="btn btn-primary profile-button" type="button">Edit Foto</button></div>
                 </div>

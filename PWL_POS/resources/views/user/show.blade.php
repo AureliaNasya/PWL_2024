@@ -40,7 +40,11 @@
                     </tr>
                 </table>
             @endempty
-            <a href="{{ url('user') }}" class="btn btn-sm btn-default mt-2">Kembali</a>
+            
+            <div class="mt-3 text-center">
+                <a class="btn btn-sm btn-default ml-1" href="{{ url('user') }}">Kembali</a>
+                <a class="btn btn-sm btn-default ml-1" href="{{ url('user/'.Auth::user()->user_id.'/edit') }}">Edit Profil</a>
+            </div>
         </div>
     </div>
 @endsection
