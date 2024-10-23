@@ -113,7 +113,7 @@ Route::group(['prefix' => 'supplier'], function() {
     Route::delete('/{id}', [supplierController::class, 'destroy']);
 });
 
-Route::group(['prefix' => 'stok', 'middleware'=> 'authorize:ADM,MNG,STF'], function(){
+Route::group(['prefix' => 'stok'], function(){
     Route::get('/', [StokController::class, 'index']);                                //menampilkan laman awal stok
     Route::post('/list', [StokController::class, 'list']);                            //menampilkan data stok dalam bentuk json untuk datatables
     Route::get('/create_ajax', [StokController::class, 'create_ajax']);               //menampilkan laman form tambah stok AJAX

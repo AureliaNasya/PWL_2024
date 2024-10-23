@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\LevelModel;   //mengimpor model LevelModel
@@ -168,7 +169,7 @@ class UserController extends Controller
     // Ambil data user dalam bentuk json untuk datatables
     public function list(Request $request)
     {
-        $users = UserModel::select('user_id', 'username', 'nama', 'level_id')
+        $users = UserModel::select('user_id', 'username', 'nama', 'foto', 'level_id')
                     ->with('level');
 
         //Filter data user berdasarkan level_id
@@ -251,6 +252,7 @@ class UserController extends Controller
                 'username'  => 'required|string|min:3|unique:m_user,username',
                 'nama'      => 'required|string|max:100',
                 'password'  => 'required|min:5',
+                'foto'      => 'nullable|mimes:jpeg,png,jpg|max:4096'
             ];
 
             $validator = Validator::make($request->all(), $rules);
@@ -262,11 +264,22 @@ class UserController extends Controller
                     'msgField'  => $validator->errors(),    //pesan eror validasi
                 ]);
             }
+
+            if ($request->has('foto')) {
+                $file = $request->file('foto');
+                $extension = $file->getClientOriginalExtension();
+
+                $filename = time() . '.' . $extension;
+
+                $path = 'adminlte/dist/img/';
+                $file->move($path, $filename);
+            }
             UserModel::create([
                 'username'  => $request->username,
                 'nama'      => $request->nama,
                 'password'  => bcrypt($request->password),
                 'level_id'  => $request->level_id,
+                'foto'      => $path . $filename
             ]);
 
             UserModel::create($request->all());
@@ -363,6 +376,7 @@ class UserController extends Controller
                 'username' => 'required|max:20|unique:m_user,username,'.$id.',user_id',
                 'nama'     => 'required|max:100',
                 'password' => 'nullable|min:5|max:20',
+                'foto'     => 'nullable|mimes:jpeg,png,jpg|max:4096'
             ];
 
             // use Illuminate\Support\Facades\Validator;
@@ -384,11 +398,27 @@ class UserController extends Controller
 
                 $request['password'] = Hash::make($request->password);
 
+                if ($request->has('foto')) {
+                    $file = $request->file('foto');
+                    $extension = $file->getClientOriginalExtension();
+
+                    $filename = time() . '.' . $extension;
+
+                    $path = 'adminlte/dist/img/';
+                    $file->move($path, $filename);
+                    $check->foto = $path . $filename; // Update foto hanya jika ada file baru
+                }
+
+                /*if (!$request->filled('foto')) { // jika foto tidak diisi, maka hapus dari request 
+                    $request->request->remove('foto');
+                }*/
+
                 $check->update([
                     'username'  => $request->username,
                     'nama'      => $request->nama,
                     'password'  => $request->password ? bcrypt($request->password) : UserModel::find($id)->password,
                     'level_id'  => $request->level_id,
+                    //'foto'      => $path.$filename
                 ]);
                 return response()->json([
                     'status' => true,
