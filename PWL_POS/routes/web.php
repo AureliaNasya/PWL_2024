@@ -7,6 +7,8 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\WelcomeController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\AuthController;
+use App\Http\Controllers\supplierController;
+use App\Models\SupplierModel;
 
 Route::pattern('id', '[0-9]+'); //artinya ketika ada parameter {id}, maka harus berupa angka
 
@@ -85,4 +87,21 @@ Route::group(['prefix' => 'barang'], function() {
     Route::get('/{id}/delete_ajax', [BarangController::class, 'confirm_ajax']);
     Route::delete('/{id}/delete_ajax', [BarangController::class, 'delete_ajax']);
     Route::delete('/{id}', [BarangController::class, 'destroy']);
+});
+
+Route::group(['prefix' => 'supplier'], function() {
+    Route::get('/', [supplierController::class, 'index']);
+    Route::post('/list', [supplierController::class, 'list']);
+    Route::get('/create', [supplierController::class, 'create']);
+    Route::post('/', [supplierController::class, 'store']);
+    Route::get('/create_ajax', [supplierController::class, 'create_ajax']);
+    Route::post('/ajax', [supplierController::class, 'store_ajax']);
+    Route::get('/{id}', [supplierController::class, 'show']);
+    Route::get('/{id}/edit', [supplierController::class, 'edit']);
+    Route::put('/{id}', [supplierController::class, 'update']);
+    Route::get('/{id}/edit_ajax', [supplierController::class, 'edit_ajax']);
+    Route::put('/{id}/update_ajax', [supplierController::class, 'update_ajax']);
+    Route::get('/{id}/delete_ajax', [supplierController::class, 'confirm_ajax']);
+    Route::delete('/{id}/delete_ajax', [supplierController::class, 'delete_ajax']);
+    Route::delete('/{id}', [supplierController::class, 'destroy']);
 });
