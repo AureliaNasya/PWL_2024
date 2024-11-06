@@ -10,3 +10,4 @@ Route::post('/login', App\Http\Controllers\API\LoginController::class)->name('lo
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::post('/logout', App\Http\Controllers\API\LogoutController::class)->name('logout');
